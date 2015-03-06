@@ -18,6 +18,12 @@
 	<!-- 扫描控制器注解 -->
 	<context:component-scan base-package="com.springsecurity.controller" />
 	
+	<!-- 第二种403配置时使用，访问被禁止处理工具 -->
+	<bean id="accessDeniedHandler" class="com.springsecurity.accesshandle.MyAccessDeniedHandler">
+		<property name="accessDeniedUrl" value="/SpringSecurity/app/403"></property>
+	</bean>
+	
+	<!-- 注册自己的mymessages.properties以达到覆盖默认messages.properties的作用 -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">

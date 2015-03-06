@@ -19,5 +19,21 @@ public class AdminController {
 		return "admin";
  
 	}
+	
+	
+	/**   
+	 * @Title: errorpage   
+	 * @Description: 配置403页面的控制器
+	 * @param modelMap
+	 * @param principal
+	 * @return        
+	 */
+	 
+	@RequestMapping(value="/403", method = RequestMethod.GET)
+	public String errorpage(ModelMap modelMap,Principal principal){
+		modelMap.addAttribute("message", "你没有访问权限");
+		modelMap.addAttribute("username", principal.getName());
+		return "403";
+	}
 
 }

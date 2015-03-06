@@ -6,14 +6,47 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<http auto-config="true">
+	<!-- 未配置403界面，且不同用户只能跳转同一界面 -->
+	<!-- <http auto-config="true">
 		<intercept-url pattern="/app/welcome*" access="ROLE_USER"/>
 		<intercept-url pattern="/app/admin*" access="ROLE_ADMIN"/>
-		<!-- default-target-url登陆后默认跳转页面 -->
+		default-target-url登陆后默认跳转页面
 		<form-login login-page="/app/login" default-target-url="/app/admin" 
 		authentication-failure-url="/app/loginfailed" />
 		<logout logout-success-url="/app/logout" />
-	</http>
+	</http> -->
+	
+	<!-- 不同用户跳转到不同页面 -->
+	<!-- 第一种方法，可以用 default-target-url 作为一个controller 来跳转.比较简单 -->
+    <http auto-config="true">
+        <intercept-url pattern="/app/welcome*" access="ROLE_USER" />
+        <intercept-url pattern="/app/admin*" access="ROLE_ADMIN" />
+        <access-denied-handler ref="accessDeniedHandler"/>
+        <form-login login-page="/app/login" default-target-url="/app/dispatch"
+            authentication-failure-url="/app/loginfailed" />
+        <logout logout-success-url="/app/logout" />
+    </http>
+    <!-- 第一种方法结束 -->
+	
+	<!-- 配置403界面 -->
+	<!-- 方法一， 配置 access-denied-handler 方式实现  -->
+	<!-- <http pattern="/app/403" security="none"/>
+	<http auto-config="true">
+		<intercept-url pattern="/app/admin*" access="ROLE_ADMIN"/>
+		<access-denied-handler error-page="/app/403"/>
+		<form-login login-page="/app/login" default-target-url="/app/admin"
+		authentication-failure-url="/app/loginfailed"/>
+		<logout logout-success-url="/app/logout"/>
+	</http> -->
+	
+	<!-- 方法二, 实现 spring 的 AccessDeniedHandler, 重写 handle() 方法  -->
+	<!-- <http auto-config="true">
+		<intercept-url pattern="/app/admin*" access="ROLE_ADMIN"/>
+		<access-denied-handler ref="accessDeniedHandler"/>
+		<form-login login-page="/app/login" default-target-url="/app/admin"
+		authentication-failure-url="/app/loginfailed"/>
+		<logout logout-success-url="/app/logout"/>
+	</http> -->
 	
 	<!-- XML配置用户名和密码 -->
 <!-- 	<authentication-manager>
