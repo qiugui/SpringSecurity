@@ -18,15 +18,25 @@
 	
 	<!-- 不同用户跳转到不同页面 -->
 	<!-- 第一种方法，可以用 default-target-url 作为一个controller 来跳转.比较简单 -->
-    <http auto-config="true">
+    <!-- <http auto-config="true">
         <intercept-url pattern="/app/welcome*" access="ROLE_USER" />
         <intercept-url pattern="/app/admin*" access="ROLE_ADMIN" />
         <access-denied-handler ref="accessDeniedHandler"/>
         <form-login login-page="/app/login" default-target-url="/app/dispatch"
             authentication-failure-url="/app/loginfailed" />
         <logout logout-success-url="/app/logout" />
-    </http>
+    </http> -->
     <!-- 第一种方法结束 -->
+    
+    <!-- 第二种方法，用自己写的AuthenticationSuccessHandler处理，配置在
+    	 spring-mvc.xml中的bean-->
+   	 <http auto-config="true">
+   	 	<intercept-url pattern="/app/welcome*" access="ROLE_USER" />
+       	<intercept-url pattern="/app/admin*" access="ROLE_ADMIN" />
+       	<access-denied-handler ref="accessDeniedHandler"/>
+       	<form-login authentication-success-handler-ref="mySuccessHandler"/>
+       	<logout logout-success-url="/app/logout"/>
+   	 </http>
 	
 	<!-- 配置403界面 -->
 	<!-- 方法一， 配置 access-denied-handler 方式实现  -->

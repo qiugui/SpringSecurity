@@ -23,6 +23,10 @@
 		<property name="accessDeniedUrl" value="/SpringSecurity/app/403"></property>
 	</bean>
 	
+	<!-- 第二种不同用户登录到不同页面的控制器 -->
+	<bean id="mySuccessHandler" class="com.springsecurity.accesshandle.LoginSuccessHandle">
+	</bean>
+	
 	<!-- 注册自己的mymessages.properties以达到覆盖默认messages.properties的作用 -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
